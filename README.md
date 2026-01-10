@@ -1,6 +1,4 @@
-# # ⚡ Mark
-
-Generated with AIBuilder
+# # Mark
 
 Prompt: # ⚡ Mark Kay - Electrical Engineering Portfolio Website Design Brief
 
