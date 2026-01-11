@@ -60,17 +60,43 @@ const contactForm = document.getElementById('contactForm');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         const submitBtn = this.querySelector('.form-submit-btn');
         const originalText = submitBtn.textContent;
-        
+
         // Get form data
         const formData = new FormData(this);
-        const data = Object.fromEntries(formData);
-        
+
         // Show loading state
         submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
+
+        // Send data to Formspree
+        fetch(this.action, {
+            method: this.method,
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Show thank you message
+                this.innerHTML = '<p style="color:green;font-weight:bold;">Thank you! Your message has been sent.</p>';
+            } else {
+                // Show error message
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                alert('There was a problem sending your message. Please try again.');
+            }
+        })
+        .catch(error => {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            alert('There was a problem sending your message. Please try again.');
+        });
+    });
+}
         
         // Simulate API call (replace with actual API endpoint)
         setTimeout(() => {
