@@ -111,6 +111,13 @@ const projects = {
         details: 'The simulation included system modeling, controller design, and performance analysis under various disturbance conditions. Results showed a 15% improvement in temperature stability compared to traditional control methods.',
         technologies: ['MATLAB', 'LTSpice', 'SolidWorks', 'Simulink', 'Control Theory'],
         image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg'
+    },
+    3: {
+        title: 'Analog Sensor Interface PCB',
+        description: 'Designed and fabricated a PCB for interfacing analog sensors with microcontrollers. Focused on low-noise layout and signal integrity. Validated performance with lab measurements.',
+        details: 'The project involved careful PCB layout for analog signal integrity, soldering SMD components, and testing with various sensor types. Achieved high accuracy and low noise in sensor readings.',
+        technologies: ['KiCad', 'Soldering', 'PCB Design', 'Analog Sensors'],
+        image: 'https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg'
     }
 };
 
