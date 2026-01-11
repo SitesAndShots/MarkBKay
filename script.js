@@ -91,79 +91,91 @@ if (contactForm) {
 }
 
 // Project modal functionality
-const projectViewBtns = document.querySelectorAll('.project-view-btn');
-const projectModal = document.getElementById('projectModal');
-const modalCloseBtn = document.querySelector('.modal-close-btn');
-const modalContent = document.querySelector('.modal-content');
+document.addEventListener('DOMContentLoaded', function() {
+    const projectViewBtns = document.querySelectorAll('.project-view-btn');
+    const projectModal = document.getElementById('projectModal');
+    const modalCloseBtn = document.querySelector('.modal-close-btn');
+    const modalContent = document.querySelector('.modal-content');
 
-// Project data
-const projects = {
-    1: {
-        title: 'Advanced Circuit Design',
-        description: 'Custom PCB design with integrated microcontroller and sensor array for environmental monitoring. This project involved designing a multi-layer PCB with temperature, humidity, and air quality sensors, along with wireless communication capabilities.',
-        details: 'The system features real-time data collection and transmission to a cloud dashboard. Key challenges included managing power consumption and ensuring reliable sensor readings in various environmental conditions.',
-        technologies: ['KiCad', 'Proteus', 'Soldering', 'ESP32', 'C++'],
-        image: 'https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg'
-    },
-    2: {
-        title: 'Control Systems Simulation',
-        description: 'MATLAB-based simulation of industrial control systems with real-time monitoring capabilities. This project simulated a PID controller for temperature regulation in an industrial furnace.',
-        details: 'The simulation included system modeling, controller design, and performance analysis under various disturbance conditions. Results showed a 15% improvement in temperature stability compared to traditional control methods.',
-        technologies: ['MATLAB', 'LTSpice', 'SolidWorks', 'Simulink', 'Control Theory'],
-        image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg'
-    },
-    3: {
-        title: 'Analog Sensor Interface PCB',
-        description: 'Designed and fabricated a PCB for interfacing analog sensors with microcontrollers. Focused on low-noise layout and signal integrity. Validated performance with lab measurements.',
-        details: 'The project involved careful PCB layout for analog signal integrity, soldering SMD components, and testing with various sensor types. Achieved high accuracy and low noise in sensor readings.',
-        technologies: ['KiCad', 'Soldering', 'PCB Design', 'Analog Sensors'],
-        image: 'https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg'
-    }
-};
+    // Project data
+    const projects = {
+        1: {
+            title: 'Discrete Low-Noise Amplifier (LNA) Design and Characterization',
+            description: `
+                <p>Designed, simulated, built, and tested a low-noise amplifier using discrete transistors (BJTs/MOSFETs). Simulated in LTspice, then built on PCB. Measured noise, gain, and bandwidth with lab equipment.</p>
+                <ul>
+                    <li><strong>Simulation:</strong> Biasing, frequency response, and noise analysis in LTspice.</li>
+                    <li><strong>Build:</strong> PCB layout in KiCad, soldering, and assembly.</li>
+                    <li><strong>Test:</strong> Measured gain and noise with oscilloscope and signal generator.</li>
+                </ul>
+                <p><strong>What I learned:</strong> Analog fundamentals, practical noise sources, and measurement techniques.</p>
+            `,
+            technologies: ['LTspice', 'KiCad', 'PCB', 'Oscilloscope'],
+            image: 'images/lna.jpg'
+        },
+        2: {
+            title: 'Bandgap Reference Circuit (Simulation & PCB)',
+            description: `
+                <p>Designed and simulated a temperature-independent bandgap voltage reference. (Optional: Built a discrete version on PCB.)</p>
+                <ul>
+                    <li><strong>Simulation:</strong> Bandgap reference theory, temperature compensation, and PVT analysis in LTspice.</li>
+                    <li><strong>Build:</strong> Discrete implementation on PCB to demonstrate temperature stability.</li>
+                </ul>
+                <p><strong>What I learned:</strong> Core analog IC building blocks, temperature effects, and layout considerations.</p>
+            `,
+            technologies: ['LTspice', 'KiCad', 'PCB', 'Temperature Compensation'],
+            image: 'images/bandgap.jpg'
+        },
+        3: {
+            title: 'Analog Sensor Interface Board with Signal Conditioning',
+            description: `
+                <p>Designed a PCB to interface analog sensors (e.g., thermistor, photodiode, or microphone) to a microcontroller, including op-amp signal conditioning.</p>
+                <ul>
+                    <li><strong>Design:</strong> Analog front-end with op-amp buffer/amplifier and filter.</li>
+                    <li><strong>Build:</strong> PCB layout, soldering, and assembly.</li>
+                    <li><strong>Test:</strong> Validated sensor readings and signal integrity with lab measurements.</li>
+                </ul>
+                <p><strong>What I learned:</strong> Real-world analog design, noise reduction, and microcontroller interfacing.</p>
+            `,
+            technologies: ['KiCad', 'Op-Amp', 'Microcontroller', 'Signal Conditioning'],
+            image: 'images/sensor-interface.jpg'
+        }
+    };
 
-// Open modal with project details
-projectViewBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const projectId = btn.getAttribute('data-project');
-        const project = projects[projectId];
-        
-        if (project) {
-            modalContent.innerHTML = `
-                <div class="modal-project">
-                    <img src="${project.image}" alt="${project.title}" class="modal-image" onerror="this.src='https://placehold.co/800x400.png?text=Image+Unavailable'">
-                    <h2 class="modal-title">${project.title}</h2>
-                    <p class="modal-description">${project.description}</p>
-                    <div class="modal-details">
-                        <h3>Project Details</h3>
-                        <p>${project.details}</p>
+    // Open modal and load project details
+    projectViewBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const projectId = this.getAttribute('data-project');
+            const project = projects[projectId];
+            if (project) {
+                modalContent.innerHTML = `
+                    <img src="${project.image}" alt="${project.title}" style="width:100%;border-radius:10px;margin-bottom:1rem;">
+                    <h2 style="color:#2563eb;">${project.title}</h2>
+                    ${project.description}
+                    <strong>Technologies Used:</strong>
+                    <div style="margin-bottom:1rem;">
+                        ${project.technologies.map(tech => `<span class="tech-tag" style="margin-right:0.5rem;">${tech}</span>`).join('')}
                     </div>
-                    <div class="modal-tech">
-                        <h3>Technologies Used</h3>
-                        <div class="tech-tags">
-                            ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            projectModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+                `;
+                projectModal.classList.add('active');
+            } else {
+                modalContent.innerHTML = "<p>Project details not found.</p>";
+                projectModal.classList.add('active');
+            }
+        });
+    });
+
+    // Close modal
+    modalCloseBtn.addEventListener('click', function() {
+        projectModal.classList.remove('active');
+        modalContent.innerHTML = '';
+    });
+    projectModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            projectModal.classList.remove('active');
+            modalContent.innerHTML = '';
         }
     });
-});
-
-// Close modal
-modalCloseBtn.addEventListener('click', () => {
-    projectModal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-});
-
-// Close modal when clicking outside
-projectModal.addEventListener('click', (e) => {
-    if (e.target === projectModal) {
-        projectModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
 });
 
 // Close modal with Escape key
